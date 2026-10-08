@@ -386,7 +386,9 @@
         });
 
         // Volume logic
-        let previousVolume = 0.8;
+        let previousVolume = volumeSlider.value / 100;
+        audioPlayer.volume = previousVolume;
+        updateVolumeIcon(previousVolume);
         volumeBtn.addEventListener('click', () => {
             if (audioPlayer.volume > 0) {
                 previousVolume = audioPlayer.volume;
