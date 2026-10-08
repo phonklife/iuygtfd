@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 import os
-import re
 import json
 import urllib.request
-import urllib.error
 
 # Dataset of virtualluser's Suno songs and recurring motifs
-VIRTUALUSER_TRACKS = [
+VIRTUALLUSER_TRACKS = [
     {
         "id": "e7a68e8d-8a29-4c8d-b0cf-8471c08e8b6b",
         "title": "Shadows of Memphis",
@@ -343,14 +341,6 @@ Virtualluser is an experimental electronic and phonk music producer. Their sound
 
 def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
     print(f"Generating web dashboard in: {output_file}")
-    
-    # Calculate motif relations for frontend
-    motif_to_tracks = {}
-    for track in tracks:
-        for motif in track["motifs"]:
-            if motif not in motif_to_tracks:
-                motif_to_tracks[motif] = []
-            motif_to_tracks[motif].append(track["title"])
 
     # Prepare JSON data for embedding
     tracks_json = json.dumps(tracks)
@@ -773,6 +763,10 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
             volumeIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }}
+        
+        const initialVolume = volumeSlider.value / 100;
+        audioPlayer.volume = initialVolume;
+        updateVolumeIcon(initialVolume);
 
         audioPlayer.addEventListener('ended', () => {{
             if (currentTrackIndex < tracks.length - 1) {{
@@ -1314,11 +1308,11 @@ if __name__ == "__main__":
     live_data = fetch_suno_data()
     
     # We use our high-quality analyzed dataset
-    tracks = VIRTUALUSER_TRACKS
+    tracks = VIRTUALLUSER_TRACKS
     motifs_meta = MOTIFS_META
     
     # Optional: Merging logic if we ever get live data in the future
-    if live_data and isinstance(live_data, list):
+    if live_data:
         # We could add tracks from live feed if they exist
         pass
 

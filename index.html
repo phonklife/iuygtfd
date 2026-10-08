@@ -415,6 +415,10 @@
             volumeIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }
+        
+        const initialVolume = volumeSlider.value / 100;
+        audioPlayer.volume = initialVolume;
+        updateVolumeIcon(initialVolume);
 
         audioPlayer.addEventListener('ended', () => {
             if (currentTrackIndex < tracks.length - 1) {
