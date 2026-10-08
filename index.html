@@ -259,7 +259,6 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const volumeBtn = document.getElementById('volume-btn');
-        const volumeIcon = document.getElementById('volume-icon');
         const volumeSlider = document.getElementById('volume-slider');
         const progressBarContainer = document.getElementById('progress-bar-container');
         const progressBarFill = document.getElementById('progress-bar-fill');
@@ -412,9 +411,13 @@
             else if (vol < 0.4) iconName = 'volume';
             else if (vol < 0.7) iconName = 'volume-1';
             
+            const volumeIcon = document.getElementById('volume-icon');
             volumeIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }
+
+        audioPlayer.volume = 0.8;
+        updateVolumeIcon(audioPlayer.volume);
 
         audioPlayer.addEventListener('ended', () => {
             if (currentTrackIndex < tracks.length - 1) {
