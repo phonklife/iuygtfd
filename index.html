@@ -766,15 +766,16 @@
                 
                 detailDesc.innerHTML = `
                     <p class="leading-relaxed text-zinc-300 mb-3">${track.description}</p>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Musical Motifs in this track:</p>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Tags and musical motifs in this track:</p>
                 `;
                 
                 // Load tag and motif pills in detail tags
                 detailTags.innerHTML = '';
                 (track.tags || []).forEach(tag => {
-                    const pill = document.createElement('span');
+                    const pill = document.createElement('button');
+                    pill.type = 'button';
                     pill.className = "bg-zinc-850 hover:bg-purple-950/20 hover:text-purple-300 border border-zinc-800 transition text-xs px-2.5 py-1 rounded-lg text-zinc-300 cursor-pointer flex items-center gap-1 select-none";
-                    pill.innerHTML = `🏷️ ${tag}`;
+                    pill.textContent = `🏷️ ${tag}`;
                     pill.onclick = () => {
                         textSearchQuery = tag;
                         searchInput.value = tag;
