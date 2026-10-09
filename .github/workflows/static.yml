@@ -33,11 +33,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Run generator script
         run: python3 generator.py
-      - name: Prepare Pages site directory
-        run: |
-          mkdir -p site
-          cp index.html site/
-          cp -R archive site/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

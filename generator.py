@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 import json
-import urllib.request
+import shutil
 
 # Dataset of virtualluser's Suno songs and recurring motifs
 VIRTUALLUSER_TRACKS = [
@@ -143,25 +143,6 @@ MOTIFS_META = {
     "Outrun Synth Bass": "A punchy, rhythmic, driving synthesizer bassline reminiscent of 1980s retrowave and synthesizer cinema.",
     "Neon Lead Melody": "A bright, resonant synthesizer lead melody evoking cyberpunk landscapes, high-tech cities, and speed."
 }
-
-def fetch_suno_data():
-    """
-    Attempts to fetch public data from Suno.com/api if possible.
-    Since outbound network access to suno.com is blocked in the sandbox environment,
-    this will gracefully fail and fall back to the built-in catalog.
-    """
-    print("Checking for remote Suno updates for virtualluser...")
-    url = "https://studio-api.suno.ai/api/feed/v2/?creator_id=virtualluser"
-    try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=5) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            print("Successfully fetched live data from Suno! Merging metadata...")
-            return data
-    except Exception as e:
-        print(f"Suno remote sync skipped: {e}")
-        print("Using the built-in, high-quality analyzed Suno-Archive for virtualluser.")
-        return None
 
 def generate_obsidian_canvas(tracks, motif_to_tracks, base_dir):
     canvas_path = os.path.join(base_dir, "virtualluser_music_map.canvas")
@@ -607,7 +588,6 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const volumeBtn = document.getElementById('volume-btn');
-        const volumeIcon = document.getElementById('volume-icon');
         const volumeSlider = document.getElementById('volume-slider');
         const progressBarContainer = document.getElementById('progress-bar-container');
         const progressBarFill = document.getElementById('progress-bar-fill');
@@ -760,6 +740,7 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
             else if (vol < 0.4) iconName = 'volume';
             else if (vol < 0.7) iconName = 'volume-1';
             
+            const volumeIcon = document.getElementById('volume-icon');
             volumeIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }}
@@ -1304,24 +1285,20 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
     print(f"Generated web dashboard complete: {output_file}")
 
 if __name__ == "__main__":
-    # Attempt to sync from Suno API (will fall back gracefully)
-    live_data = fetch_suno_data()
-    
     # We use our high-quality analyzed dataset
     tracks = VIRTUALLUSER_TRACKS
     motifs_meta = MOTIFS_META
-    
-    # Optional: Merging logic if we ever get live data in the future
-    if live_data:
-        # We could add tracks from live feed if they exist
-        pass
 
     # Generate the Obsidian vault
     generate_obsidian_vault(tracks, motifs_meta, base_dir="archive")
     
-    # Generate the index.html for static GitHub pages site
-    generate_web_dashboard(tracks, motifs_meta, output_file="index.html")
-    
+    # Prepare a clean Pages artifact and preserve the published archive path
+    site_dir = "site"
+    shutil.rmtree(site_dir, ignore_errors=True)
+    os.makedirs(site_dir)
+    shutil.copytree("archive", os.path.join(site_dir, "archive"))
+    generate_web_dashboard(tracks, motifs_meta, output_file=os.path.join(site_dir, "index.html"))
+
     print("\n[SUCCESS] Redesigned Barnacle Suno-Archive generation complete!")
     print("Obsidian vault created in /archive")
-    print("Interactive HTML dashboard created in index.html")
+    print("Interactive HTML dashboard created in site/index.html")
