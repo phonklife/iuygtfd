@@ -16,4 +16,4 @@ Virtualluser is an experimental electronic and phonk music producer. Their sound
 - [[Infinite Drift]] (Drift Phonk / Memphis)
 
 ## Interactive Archives
-- [GitHub Pages Dashboard](https://phonklife.github.io/redesigned-barnacle/)
+- [GitHub Pages Dashboard](https://phonklife.github.io/iuygtfd/)

@@ -3,6 +3,13 @@ import os
 import json
 import shutil
 
+# Repo identity. In GitHub Actions GITHUB_REPOSITORY is set automatically,
+# so the published links follow the current repo name after a rename.
+REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "phonklife/iuygtfd")
+REPO_OWNER, REPO_NAME = REPO_SLUG.split("/", 1)
+REPO_URL = f"https://github.com/{REPO_SLUG}"
+PAGES_URL = f"https://{REPO_OWNER}.github.io/{REPO_NAME}/"
+
 # Dataset of virtualluser's Suno songs and recurring motifs
 VIRTUALLUSER_TRACKS = [
     {
@@ -311,7 +318,7 @@ Virtualluser is an experimental electronic and phonk music producer. Their sound
 {all_tracks_links}
 
 ## Interactive Archives
-- [GitHub Pages Dashboard](https://phonklife.github.io/redesigned-barnacle/)
+- [GitHub Pages Dashboard]({PAGES_URL})
 """
     with open(artist_path, "w", encoding="utf-8") as f:
         f.write(artist_content)
@@ -383,7 +390,7 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
             </div>
         </div>
         <div class="flex items-center gap-4">
-            <a href="https://github.com/phonklife/redesigned-barnacle" target="_blank" class="text-zinc-400 hover:text-white transition flex items-center gap-2 text-sm bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg">
+            <a href="{REPO_URL}" target="_blank" class="text-zinc-400 hover:text-white transition flex items-center gap-2 text-sm bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg">
                 <i data-lucide="github" class="w-4 h-4"></i> Repository
             </a>
         </div>
