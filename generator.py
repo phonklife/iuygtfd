@@ -721,7 +721,9 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
         }});
 
         // Volume logic
-        let previousVolume = 0.8;
+        let previousVolume = volumeSlider.value / 100;
+        audioPlayer.volume = previousVolume;
+        updateVolumeIcon(previousVolume);
         volumeBtn.addEventListener('click', () => {{
             if (audioPlayer.volume > 0) {{
                 previousVolume = audioPlayer.volume;
@@ -752,10 +754,6 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
             lucide.createIcons();
         }}
         
-        const initialVolume = volumeSlider.value / 100;
-        audioPlayer.volume = initialVolume;
-        updateVolumeIcon(initialVolume);
-
         audioPlayer.addEventListener('ended', () => {{
             if (currentTrackIndex < tracks.length - 1) {{
                 loadTrack(currentTrackIndex + 1);
