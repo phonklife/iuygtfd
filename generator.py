@@ -721,7 +721,7 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
         }});
 
         // Volume logic
-        let previousVolume = 0.8;
+        let previousVolume = volumeSlider.value / 100;
         volumeBtn.addEventListener('click', () => {{
             if (audioPlayer.volume > 0) {{
                 previousVolume = audioPlayer.volume;
