@@ -340,11 +340,6 @@ def generate_web_dashboard(tracks, motifs_meta, output_file="index.html"):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtualluser Suno Music Archive</title>
-    <!-- Vercel Speed Insights -->
-    <script>
-      window.si = window.si || function () {{ (window.siq = window.siq || []).push(arguments); }};
-    </script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
